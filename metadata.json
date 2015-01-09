@@ -1,0 +1,14 @@
+{
+  "name": "jballou-sourcebans",
+  "version": "0.0.1",
+  "author": "jballou",
+  "summary": "Install and configure SourceBans",
+  "license": "Apache 2.0",
+  "source": "http://github.com/jaredballou/puppet-sourcebans",
+  "issues_url": "https://github.com/jaredballou/puppet-sourcebans/issues",
+  "project_page": "https://github.com/jaredballou/puppet-sourcebans",
+  "dependencies": [
+    {"version_requirement":">= 1.0.0","name":"puppetlabs-stdlib"}
+  ]
+}
+
