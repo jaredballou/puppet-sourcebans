@@ -139,36 +139,36 @@ class sourcebans(
     File { owner => $web_user, group => $web_group, }
 
     #Install needed packages. TODO: Include other classes to avoid resource collisions
-    package { ['git','gdb','mailx','wget','nano','tmux','glibc.i686','libstdc++.i686']: ensure => present, } ->
+    #package { ['git','gdb','mailx','wget','nano','tmux','glibc.i686','libstdc++.i686']: ensure => present, } ->
     #Hack to create install directory with parents if needed
     exec { 'create-sourcebans-web_root': command => "mkdir -p \"${web_root}\"", creates => $web_root,  } ->
     #Actual file resource for install directory
-    file { $web_root: ensure => directory, mode => '0775', source => 'puppet:///modules/sourcebans/files/web_upload', recurse => remote, } ->
+    file { $web_root: ensure => directory, mode => '0775', source => 'puppet:///modules/sourcebans/web_upload', recurse => remote, } ->
     #Apache vhost
-    apache::vhost { $web_server:
-      port          => $web_real_port,
-      docroot       => "${web_root}",
-      docroot_group => $web_group,
-      docroot_owner => $web_user,
-    } ->
+#    apache::vhost { $web_server:
+#      port          => $web_real_port,
+#      docroot       => "${web_root}",
+#      docroot_group => $web_group,
+#      docroot_owner => $web_user,
+#    } ->
     #Firewall rule for Apache
-    firewall { '100 allow http access':
-      port   => $web_real_port,
-      proto  => tcp,
-      action => accept,
-    } ->
+#    firewall { '100 allow http access':
+#      port   => $web_real_port,
+#      proto  => tcp,
+#      action => accept,
+#    } ->
     #Update install.sql dump with any changes (currently just admin password)
-    file { "${web_root}/sql/install.sql": content => template('sourcebans/install.sql.erb'), } ->
+    #file { "${web_root}/sql/install.sql": content => template('sourcebans/install.sql.erb'), } ->
     #Create database, user, and grants as needed, if database does not exist the SQL dump will be imported
     mysql::db { $db_name:
       user           => $db_user,
       password       => $db_pass,
       host           => $db_host,
       grant          => 'ALL',
-      sql            => "${web_root}/sql/install.sql",
+#     sql            => "${web_root}/sql/install.sql",
     }
   }
   if ($role_sm) {
-    file { $sm_root: owner => $sm_user, group => $sm_group, ensure => directory, mode => '0775', source => 'puppet:///modules/sourcebans/files/game_upload/addons/sourcemod', recurse => remote, }
+    file { $sm_root: owner => $sm_user, group => $sm_group, ensure => directory, mode => '0775', source => 'puppet:///modules/sourcebans/game_upload/addons/sourcemod', recurse => remote, }
   }
 }
