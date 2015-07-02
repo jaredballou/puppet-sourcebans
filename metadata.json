@@ -8,7 +8,6 @@
   "issues_url": "https://github.com/jaredballou/puppet-sourcebans/issues",
   "project_page": "https://github.com/jaredballou/puppet-sourcebans",
   "dependencies": [
-    {"version_requirement":">= 1.0.0","name":"puppetlabs-stdlib"}
   ]
 }
 
